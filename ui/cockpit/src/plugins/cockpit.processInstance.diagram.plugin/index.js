@@ -15,10 +15,23 @@
  * limitations under the License.
  */
 
-import * as cockpitNavigation from "./cockpit.navigation";
-import * as diagramOverlays from "./cockpit.processInstance.diagram.plugin";
+import React from "react";
+import ReactDOM from "react-dom";
+import Overlays from "./Overlays";
 
-export default [
-  ...Object.values(cockpitNavigation),
-  ...Object.values(diagramOverlays)
-];
+const div = document.createElement("div");
+
+export default {
+  id: "cockpit.processInstance.diagram.plugin.instanceCount",
+  pluginPoint: "cockpit.processInstance.diagram.plugin",
+  priority: 0,
+  render: (viewer, { processInstanceId }) => {
+    ReactDOM.render(
+      <Overlays viewer={viewer} processInstanceId={processInstanceId} />,
+      div
+    );
+  },
+  unmount: () => {
+    ReactDOM.unmountComponentAtNode(div);
+  }
+};
